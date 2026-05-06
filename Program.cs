@@ -24,7 +24,7 @@ public class Program
 
             try
             {
-                var person = new Person(cmdArgs[0].Trim(), cmdArgs[1].Trim(), int.Parse(cmdArgs[2].Trim()), decimal.Parse(cmdArgs[3].Trim(), CultureInfo.InvariantCulture));
+                var person = new Person(cmdArgs[0], cmdArgs[1], int.Parse(cmdArgs[2]), decimal.Parse(cmdArgs[3], CultureInfo.InvariantCulture));
                 persons.Add(person);
             }
 
