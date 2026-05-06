@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualBasic;
-
+using System.Globalization;
 
 
 
@@ -10,18 +10,41 @@ public class Program
 {
     public static void Main()
     {
-        var lines = 5;
+        
+        Console.WriteLine();
+        Console.WriteLine("Please enter 5 people in the format: Firstname | Lastname | Age | Salary |");
+        Console.WriteLine("--------------------------------------------------------------------------");
+        var lines = 1;
         var persons = new List<Person>();
+
         for (int i = 0; i < lines; i++)
         {
+            Console.WriteLine();
             var cmdArgs = Console.ReadLine()!.Split(' ');
-            var person = new Person(cmdArgs[0], cmdArgs[1], int.Parse(cmdArgs[2]));
-            persons.Add(person);
+
+            try
+            {
+                var person = new Person(cmdArgs[0].Trim(), cmdArgs[1].Trim(), int.Parse(cmdArgs[2].Trim()), decimal.Parse(cmdArgs[3].Trim(), CultureInfo.InvariantCulture));
+                persons.Add(person);
+            }
+
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
         }
 
-        persons.OrderBy(p => p.FirstName)
-        .ThenBy(p => p.Age)
-        .ToList()
-        .ForEach(p => Console.WriteLine(p.ToString()));
+        Console.WriteLine();
+        Console.WriteLine("Please enter the percentage to increase the salary:");
+
+        var bonus = decimal.Parse(Console.ReadLine()!, CultureInfo.InvariantCulture);
+
+        persons.ForEach(p => p.bonusSalary(bonus));
+        persons.ForEach(p => Console.WriteLine(p.ToString()));
+
+        Console.WriteLine();
+        Console.WriteLine("Press any key to exit...");
+        Console.ReadKey();
     }
+
 }
